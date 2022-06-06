@@ -7,7 +7,7 @@ pipeline{
     environment{
         IMAGE_NAME ='devopstrainer/java-mvn-privaterepos:$BUILD_NUMBER'
         BUILD_SERVER_IP ='ec2-user@3.110.40.103'
-        DEPLOY_SERVER_IP='ec2-user@13.126.72.55'
+       
         }
 
     stages{
@@ -49,19 +49,30 @@ pipeline{
                 sh "ssh ${BUILD_SERVER_IP} sudo docker push ${IMAGE_NAME}"
                 }
         }
-    }
-}     
+    stage("TF will provison deploy server"){
+        steps{
+            script{
+                dir('terraform'){
+                sh "terraform init"
+                sh "terraform apply  --auto-approve"
+                EC2_PUBLIC_IP=sh(
+                    script: "terraform output ec2-ip",
+                    returnStdout: true
+                ).trim()
+            }
         }
+    }
+    }
     stage("Deploy the docker image"){
     agent any
         steps{
             script{
+                sleep(time:90,unit: "SECONDS")
+                echo "${EC2_PUBLIC_IP}"
                 sshagent(['BUILD_SERVER_KEY']) {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
-                sh "ssh -o StrictHostKeyChecking=no ${DEPLOY_SERVER_IP} sudo yum install docker -y"
-                sh "ssh ${DEPLOY_SERVER_IP} sudo systemctl  start docker"
-                sh "ssh ${DEPLOY_SERVER_IP} sudo docker login -u $USERNAME -p $PASSWORD"
-                sh "ssh ${DEPLOY_SERVER_IP} sudo docker run -itd -P ${IMAGE_NAME}"
+               sh "ssh-o StrictHostKeyChecking=no ec2-user@${EC2_PUBLIC_IP} sudo docker login -u $USERNAME -p $PASSWORD"
+                sh "ssh ec2-user@${EC2_PUBLIC_IP} sudo docker run -itd -p 8000:8080 ${IMAGE_NAME}"
                     }
                          }
                 }
