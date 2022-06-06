@@ -48,6 +48,9 @@ pipeline{
                 sh "ssh ${BUILD_SERVER_IP} sudo docker login -u $USERNAME -p $PASSWORD"
                 sh "ssh ${BUILD_SERVER_IP} sudo docker push ${IMAGE_NAME}"
                 }
+                }
+            }
+        }
         }
     stage("TF will provison deploy server"){
         steps{
@@ -80,4 +83,3 @@ pipeline{
                  }
     }
 }
-        }
