@@ -52,7 +52,8 @@ pipeline{
             }
         }
         }
-    stage("TF will provison deploy server"){
+    stage("TF will provison deploy server"){ 
+        agent any
         steps{
             script{
                 dir('terraform'){
