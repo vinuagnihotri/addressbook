@@ -94,3 +94,4 @@ sh "ssh -o StrictHostKeyChecking=no ${ACM_IP} bash /home/ec2-user/prepare-ACM.sh
     }
     }
 }
+}
