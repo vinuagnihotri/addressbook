@@ -8,7 +8,7 @@ then
   git pull origin master
 else
   echo "repo is not there"
- git clone https://github.com/preethid/addressbook.git
+ git clone https://github.com/vinuagnihotri/addressbook.git
  cd /home/ec2-user/addressbook
 fi
  mvn package
