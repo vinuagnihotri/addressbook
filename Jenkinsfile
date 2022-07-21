@@ -10,7 +10,7 @@ pipeline{
     stages{
       
         stage("Compile"){
-            agent { label 'linux_slave'}
+            agent none
          steps{
                 echo "COMPILING THE CODE"
                 sh 'mvn compile'
