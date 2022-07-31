@@ -6,8 +6,8 @@ pipeline{
     }
     environment{
         BUILD_SERVER_IP='ec2-user@13.59.27.148'
-        DEPLOY_SERVER_IP='ec2-user@65.2.29.56'
-        IMAGE_NAME='devopstrainer/java-mvn-privaterepos:$BUILD_NUMBER'
+        DEPLOY_SERVER_IP='ec2-user@18.221.207.25'
+        IMAGE_NAME='vinuagnihotri/dockertest:$BUILD_NUMBER'
     }
     stages{
       
