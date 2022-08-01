@@ -5,8 +5,8 @@ pipeline{
         maven 'mymaven'
     }
     environment{
-        BUILD_SERVER_IP='ec2-user@13.59.27.148'
-        DEPLOY_SERVER_IP='ec2-user@18.221.207.25'
+        BUILD_SERVER_IP='ec2-user@3.141.9.244'
+        DEPLOY_SERVER_IP='ec2-user@3.144.178.244'
         IMAGE_NAME='vinuagnihotri/dockertest:$BUILD_NUMBER'
     }
     stages{
